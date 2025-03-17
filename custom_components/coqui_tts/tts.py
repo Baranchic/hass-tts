@@ -1,5 +1,5 @@
 import requests
-from homeassistant.components.tts import Provider, TTSVoice
+from homeassistant.components.tts import Provider, Voice
 
 SUPPORT_LANGUAGES = ["en"]
 
