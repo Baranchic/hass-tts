@@ -10,7 +10,7 @@ class CoquiTTSProvider(Provider):
     def __init__(self, hass, config):
         self.hass = hass
         self.name = "Coqui TTS"
-        self._url = "http://192.168.88.13:5002/tts"
+        self._url = "http://192.168.88.13:5002/api/tts"  # Changed to /api/tts
 
     @property
     def supported_languages(self):
