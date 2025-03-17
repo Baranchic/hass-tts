@@ -1,8 +1,8 @@
 import requests
 from homeassistant.components.tts import Provider, Voice
 
-SUPPORT_LANGUAGES = ["sk"]
-SUPPORTED_OPTIONS = ["speaker_id"]
+SUPPORT_LANGUAGES = ["en"]
+SUPPORTED_OPTIONS = ["voice"]
 
 def get_engine(hass, config, discovery_info=None):
     return CoquiTTSProvider(hass, config)
@@ -12,7 +12,7 @@ class CoquiTTSProvider(Provider):
         self.hass = hass
         self.name = "Coqui TTS"
         self._url = "http://192.168.88.13:5002/api/tts"
-        self._speakers = ["p234", "p316", "p376"]
+        self._speakers = ["p234", "p316", "p376"]  # Add more as needed
 
     @property
     def supported_languages(self):
@@ -23,21 +23,25 @@ class CoquiTTSProvider(Provider):
         return "en"
 
     @property
+    def default_options(self):
+        return {"voice": "p316"}
+
+    @property
     def supported_options(self):
         return SUPPORTED_OPTIONS
 
     @property
     def voice_info(self):
-        return {speaker: Voice(speaker, speaker) for speaker in self._speakers}
+        return {speaker: Voice(speaker, speaker, {"language": "en"}) for speaker in self._speakers}
 
     def get_tts_audio(self, message, language, options=None):
         message = message.strip() if message else "Default message"
         print(f"Sending TTS request: text='{message}', language={language}, options={options}")
         try:
-            speaker_id = options.get("speaker_id", "p316") if options else "p316"
+            voice = options.get("voice", "p316") if options else "p316"
             params = {
                 "text": message,
-                "speaker_id": speaker_id,
+                "speaker_id": voice,
                 "language_id": "en"
             }
             print(f"TTS request params: {params}")
