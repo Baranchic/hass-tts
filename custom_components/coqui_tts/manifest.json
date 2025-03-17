@@ -1,0 +1,9 @@
+{
+  "domain": "coqui_tts",
+  "name": "Coqui TTS",
+  "version": "1.0.0",
+  "documentation": "https://github.com/<your-username>/hass-coqui-tts",
+  "requirements": ["requests"],
+  "codeowners": ["@Baranchic"],
+  "iot_class": "local_polling"
+}
