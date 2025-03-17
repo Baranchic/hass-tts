@@ -12,7 +12,7 @@ class CoquiTTSProvider(Provider):
         self.hass = hass
         self.name = "Coqui TTS"
         self._url = "http://192.168.88.13:5002/api/tts"
-        self._speakers = ["p234", "p316", "p376"]  # Add more as needed
+        self._speakers = ["p234", "p316", "p376"]
 
     @property
     def supported_languages(self):
@@ -32,7 +32,14 @@ class CoquiTTSProvider(Provider):
 
     @property
     def voice_info(self):
-        return {speaker: Voice(speaker, speaker, {"language": "en"}) for speaker in self._speakers}
+        voices = {}
+        for speaker in self._speakers:
+            voices[speaker] = Voice(
+                name=speaker,
+                friendly_name=f"Speaker {speaker}",
+                extra_attributes={"language": "en"}
+            )
+        return voices
 
     def get_tts_audio(self, message, language, options=None):
         message = message.strip() if message else "Default message"
