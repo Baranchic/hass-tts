@@ -1,7 +1,7 @@
 import requests
 from homeassistant.components.tts import Provider, Voice
 
-SUPPORT_LANGUAGES = ["en"]
+SUPPORT_LANGUAGES = ["sk"]
 SUPPORTED_OPTIONS = ["speaker_id"]
 
 def get_engine(hass, config, discovery_info=None):
@@ -31,19 +31,17 @@ class CoquiTTSProvider(Provider):
         return {speaker: Voice(speaker, speaker) for speaker in self._speakers}
 
     def get_tts_audio(self, message, language, options=None):
-        if not message:
-            print("No text provided for synthesis")
-            raise ValueError("No text provided for synthesis")
-        print(f"Sending TTS request: text={message}, language={language}, options={options}")
+        message = message.strip() if message else "Default message"
+        print(f"Sending TTS request: text='{message}', language={language}, options={options}")
         try:
             speaker_id = options.get("speaker_id", "p316") if options else "p316"
-            data = {
-                "text": str(message),
+            params = {
+                "text": message,
                 "speaker_id": speaker_id,
                 "language_id": "en"
             }
-            print(f"TTS request data: {data}")
-            response = requests.post(self._url, json=data, timeout=30)
+            print(f"TTS request params: {params}")
+            response = requests.get(self._url, params=params, timeout=30)
             response.raise_for_status()
             return "wav", response.content
         except Exception as e:
