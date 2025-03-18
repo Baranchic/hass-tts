@@ -1,7 +1,7 @@
 import requests
 from homeassistant.components.tts import Provider, Voice
 
-SUPPORT_LANGUAGES = ["en"]
+SUPPORT_LANGUAGES = ["sk"]
 SUPPORTED_OPTIONS = ["voice"]
 
 def get_engine(hass, config, discovery_info=None):
